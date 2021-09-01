@@ -20,11 +20,13 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import Typography from "views/Typography/Typography.js";
+import DepartmentTable from "views/DepartmentTable/DepartmentTable.js";
 import Icons from "views/Icons/Icons.js";
 
 const dashboardRoutes = [
@@ -66,6 +68,14 @@ const dashboardRoutes = [
     rtlName: "الرموز",
     icon: BubbleChart,
     component: Icons,
+    layout: "/admin",
+  },
+  {
+    path: "/Department",
+    name: "Department",
+    rtlName: "قائمة الجدول",
+    icon: PeopleAltIcon,
+    component: DepartmentTable,
     layout: "/admin",
   },
 ];

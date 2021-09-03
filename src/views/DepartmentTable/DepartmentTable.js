@@ -46,11 +46,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function DepartmentTable() {
-  function handleChange(event) {
-    setSelectedValue(event.target.value);
-  }
-  function getDepartment(department) {
-    localStorage.setItem("currentDepartment", department);
+  const getDetailedData = (department) => {
     fetch(`https://randomuser.me/api/?seed=${department}&results=10`)
       .then((results) => results.json())
       .then((data) => {
@@ -74,12 +70,22 @@ export default function DepartmentTable() {
         setFormatedDepartmentDetails(detailedData);
         setCurrentDepartment(data.info.seed);
       });
+  };
+  function handleChange(event) {
+    setSelectedValue(event.target.value);
   }
+  function getDepartment(department) {
+    localStorage.setItem("currentDepartment", department);
+    getDetailedData(department);
+  }
+
   const classes = useStyles();
+
   const [
     formatedDepartmentDetails,
     setFormatedDepartmentDetails,
   ] = React.useState([]);
+
   const [selectedValue, setSelectedValue] = React.useState(
     localStorage.getItem("currentDepartment")
   );
@@ -102,35 +108,11 @@ export default function DepartmentTable() {
       data["manager"]["name"]["last"],
     ];
   });
+
   React.useEffect(() => {
-    fetch(
-      `https://randomuser.me/api/?seed=${localStorage.getItem(
-        "currentDepartment"
-      )}&results=10`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        const detailedData = data.results.map((details) => {
-          return [
-            details.name.title,
-            details.name.first,
-            details.name.last,
-            details.gender,
-            details.email,
-            details.dob.age,
-            details.phone,
-            details.location.city,
-            details.location.state,
-            details.location.postcode,
-            details.location.country,
-            details.nat,
-            <img key={details.email} src={details.picture.medium} alt="..." />,
-          ];
-        });
-        setFormatedDepartmentDetails(detailedData);
-        setCurrentDepartment(data.info.seed);
-      });
+    getDetailedData(localStorage.getItem("currentDepartment"));
   }, []);
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -156,8 +138,6 @@ export default function DepartmentTable() {
           </CardBody>
         </Card>
       </GridItem>
-      {/* {console.log("departmentDetails", departmentDetails)}
-      {console.log("currentDepartment", currentDepartment)} */}
       <GridItem xs={12} sm={12} md={12}>
         <Card plain>
           <CardHeader plain color="primary">
